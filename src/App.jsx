@@ -4,13 +4,19 @@ import { GoPlus } from 'react-icons/go';
 import CompanyForm from './components/CompanyForm';
 import EducationForm from './components/EducationForm'
 import ProjectForm from './components/ProjectForm'
+import SkillsForm from './components/SkillsForm'
+import ReferenceForm from './components/ReferenceForm'
+import OthersForm from './components/OthersForm';
 
 function App() {
   const [person, setPerson] = useState({name: '', objective:'', email:'', phone:'', website:'', location:''})
   const [experiences, setExperiences] = useState([{id: Date.now(), name: '', job:'', date: '', description:''}]);
   const [schools, setSchools] = useState([{id: Date.now(), school: '', date:'', degree: '', gpa:'', info:''}]);
   const [projects, setProjects] = useState([{id: Date.now(), name:'', date:'', description:''}])
-
+  const [skills, setSkills] = useState([{id: Date.now(), name:''}]);
+  const [references, setReferences] = useState([{id: Date.now(), name: '', phone: '', address:'', occupation:''}]);
+  const [others, setOthers] = useState({id: Date.now(), text: ''});
+  
   const addExperience = () => {
     const newCompany = {
       id: Date.now(),
@@ -44,6 +50,25 @@ function App() {
     setProjects([...projects, newProject]);
   }
 
+  const addSkill = () => {
+    const newSkill = {
+      id: Date.now(),
+      name: '',
+    };
+    setSkills([...skills, newSkill])
+  }
+
+  const addReference = () => {
+    const newReference = {
+      id: Date.now(),
+      name: '',
+      phone: '',
+      occupation: '',
+      address: '',    
+    };
+    setReferences([...references, newReference]);
+  }
+
   const deleteExperience = (id) => {
     setExperiences(experiences.filter(exp => exp.id !== id));
   };
@@ -56,6 +81,13 @@ function App() {
     setProjects(projects.filter(exp => exp.id!== id));
   };
 
+  const deleteSkill = (id) => {
+    setSkills(skills.filter(exp => exp.id!== id));
+  }
+
+  const deleteReference = (id) => {
+    setReferences(references.filter(exp => exp.id!== id));
+  }
   const updateExperience = (id, field, value) => {
     setExperiences(experiences.map(exp => 
       exp.id === id ? { ...exp, [field]: value } : exp
@@ -74,6 +106,20 @@ function App() {
     ));
   };
 
+  const updateSkill = (id, field, value) => {
+    setSkills(skills.map(exp => 
+      exp.id === id? { ...exp, [field]: value } : exp
+    ));
+  }
+
+  const updateReference = (id, field, value) => {
+    setReferences(references.map(exp => 
+      exp.id === id? { ...exp, [field]: value} : exp
+    ));
+  }
+  const updateOthers = (id, field, value) => {
+    setOthers({...others, [field]: value});
+  }
   return (
     <>
       <header className="flex justify-between w-full">
@@ -226,7 +272,69 @@ function App() {
                       <GoPlus size={20} /> <p>Add Project</p>
                   </button>
               </div>
-            </div>   
+            </div>
+
+            <div>
+              <div className="border-t flex flex-col pt-4 mt-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-lg font-medium">Skills</h2>
+                    </div>
+
+                    {skills.map(exp => (
+                    <SkillsForm
+                    key={exp.id}
+                    id={exp.id}
+                    skill={exp}
+                    onChange={updateSkill}
+                    onDelete={deleteSkill}
+                  />
+                  ))}
+                  <button 
+                  type="button"
+                  onClick={addSkill}
+                  className="bg-blue-500 self-end text-white rounded-md hover:bg-blue-600 flex justify-around items-center py-2 px-4"
+                  >
+                      <GoPlus size={20} /> <p>Add Skill</p>
+                  </button>
+              </div>       
+            </div> 
+            <div>
+                <div className="border-t flex flex-col pt-4 mt-4">
+                  <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-lg font-medium">Referees</h2>
+                  </div>
+                  {references.map(exp => (
+                    <ReferenceForm
+                    key={exp.id}
+                    id={exp.id}
+                    reference={exp}
+                    onChange={updateReference}
+                    onDelete={deleteReference}
+                  />
+                  ))}
+                  <button 
+                  type="button"
+                  onClick={addReference}
+                  className="bg-blue-500 self-end text-white rounded-md hover:bg-blue-600 flex justify-around items-center py-2 px-4"
+                  >
+                      <GoPlus size={20} /> <p>Add Referee</p>
+                  </button>
+                </div>
+            </div> 
+            <div>
+              <div className="border-t flex flex-col pt-4 mt-4">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-lg font-medium">Others</h2>
+                  </div>
+                  <OthersForm
+                    key={others.id}
+                    id={others.id}
+                    other={others}
+                    onChange={updateOthers}
+                    />
+              </div>
+    
+            </div> 
           </form>
         </section>
 
