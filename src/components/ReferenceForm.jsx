@@ -23,13 +23,13 @@ const ReferenceForm = ({reference, onChange, onDelete, id}) => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <label htmlFor="projectDate" className="mb-1 text-sm font-medium">Phone Number</label>
+                            <label htmlFor="phone" className="mb-1 text-sm font-medium">Phone Number</label>
                             <input 
-                            id="projectDate"
+                            id="phone"
                             className="rounded border p-2"
                             type="tel"
                             value={reference.phone}
-                            onChange={(e) => onChange(id, 'phone-number', e.target.value)}
+                            onChange={(e) => onChange(id, 'phone', e.target.value)}
                             />
                         </div>
                 </div>
